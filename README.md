@@ -1,1 +1,1 @@
-# cotest in programmers (C++)
+# cotest by C++
