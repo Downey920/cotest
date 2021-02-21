@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+vector<int> solution(vector<int> prices) {
+    vector<int> answer;
+    queue<int> q;
+    for(int i : prices) {
+        q.push(i);
+    }
+    while(!q.empty()) {
+        answer.push_back(0);
+        int x = q.front();
+        q.pop();
+        for(int i = answer.size(); i < prices.size(); i++) {
+            if(x > prices[i]) {
+                answer.back()++;
+                break;
+            }
+            else {
+                answer.back()++;
+            }
+        }
+    }
+    return answer;
+}
