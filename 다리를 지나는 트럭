@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int solution(int bridge_length, int weight, vector<int> truck_weights) {
+    int answer = 0;
+    queue<int> stand_by;
+    queue<pair<int,int>> pass_by;
+    for(int i: truck_weights) {
+        stand_by.push(i);
+    }
+    
+    int sumWeight = 0;
+    while(!stand_by.empty() || !pass_by.empty()) {
+        answer++;
+        if(!stand_by.empty() && sumWeight + stand_by.front() <= weight) {
+            sumWeight += stand_by.front();
+            pass_by.push({answer,stand_by.front()});
+            stand_by.pop();
+        }
+        
+        if(answer - pass_by.front().first == bridge_length - 1) {
+            sumWeight -= pass_by.front().second;
+            pass_by.pop();
+        }
+    }
+    return answer + 1;
+}
