@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<string> operations) {
+    vector<int> answer;
+    deque<int> dq;
+    for(int i = 0; i < operations.size(); i++) {
+        stringstream ss(operations[i]);
+        string cmp, num;
+        ss>>cmp>>num;
+        
+        if(cmp == "I") {
+            dq.push_back(stoi(num));
+            sort(dq.begin(), dq.end());
+        } else if(cmp == "D") {
+            if(num == "1" && !dq.empty()) {
+                dq.pop_back();
+            } else if(num == "-1"&& !dq.empty()) {
+                dq.pop_front();
+            }
+        }
+    }
+    if(!dq.empty()) {
+        answer.push_back(dq.back());
+        answer.push_back(dq.front());
+    } else {
+        answer.push_back(0);
+        answer.push_back(0);
+    }
+    return answer;
+}
