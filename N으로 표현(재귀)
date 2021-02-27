@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int answer = 9;
+void recur(int N, int number, int cur, int cnt) {
+    if(cur == number) {
+        answer = min(answer, cnt);
+        return;
+    }
+    if(cnt > 8) {
+        return;
+    }
+    
+    int tempN = 0;
+    for(int i = 0; i + cnt < 8; i++) {
+        tempN = tempN*10 + N;
+        recur(N, number, cur + tempN, cnt + 1 + i);
+        recur(N, number, cur - tempN, cnt + 1 + i);
+        recur(N, number, cur / tempN, cnt + 1 + i);
+        recur(N, number, cur * tempN, cnt + 1 + i);
+    }
+}
+
+int solution(int N, int number) {
+    recur(N, number, 0, 0);
+    return answer > 8 ? -1 : answer;
+}
