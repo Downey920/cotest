@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int dp[501][501];
+int copyTri[501][501];
+
+int go(int i, int j) {
+    if(dp[i][j] > 0) return dp[i][j];
+    
+    if(i == 0 && j == 0) return dp[i][j] = copyTri[i][j];
+    
+    if(j == 0) {
+        return dp[i][j] = go(i - 1, j) + copyTri[i][j];
+    } else if(i == j) {
+        return dp[i][j] = go(i - 1, j - 1) + copyTri[i][j];
+    } else {
+        return dp[i][j] = max(go(i - 1, j), go(i - 1, j - 1)) + copyTri[i][j];
+    }
+}
+
+int solution(vector<vector<int>> triangle) {
+    int answer = 0;
+    
+    for(int i = 0; i < triangle.size(); i++) {
+        for(int j = 0; j <triangle[i].size(); j++) {
+            copyTri[i][j] = triangle[i][j];
+        }
+    }
+    
+    for(int i = 0; i < triangle.size(); i++) {
+        answer = max(answer, go(triangle.size() - 1, i));
+    }
+    return answer;
+}
