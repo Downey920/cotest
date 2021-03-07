@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int N, M;
+bool visit[8];
+vector<int> v;
+void permutation(int num, int cnt) {
+	if (cnt == M) {
+		for (int i : v) {
+			cout << i << ' ';
+		}
+		cout << '\n';
+		return;
+	}
+
+	for (int i = num; i <= N; i++) {
+		v.push_back(i);
+		permutation(i, cnt + 1);
+		v.pop_back();
+	}
+}
+
+int main() {
+	cin >> N >> M;
+
+	permutation(1, 0);
+	return 0;
+}
