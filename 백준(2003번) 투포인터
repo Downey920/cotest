@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int N, M;
+int main() {
+	vector<int> v;
+	cin >> N >> M;
+
+	for (int i = 0; i < N; i++) {
+		int input;
+		cin >> input;
+		v.push_back(input);
+	}
+
+	int start = 0, end = 0;
+	int cnt = 0;
+	int sum = v[0];
+
+	while (start <= end && end < N) {
+		if (sum < M) {
+			if (end + 1 < N) {
+				sum += v[++end];
+			}
+			else break;
+		}
+		else if (sum == M) {
+			cnt++;
+			if (end + 1 < N) {
+				sum += v[++end];
+			}
+			else break;
+		}
+		else if (sum > M) {
+			sum -= v[start++];
+			if (start > end && start < N) {
+				end = start;
+				sum = v[start];
+			}
+		}
+	}
+
+	cout << cnt;
+	return 0;
+}
