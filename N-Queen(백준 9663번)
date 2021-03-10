@@ -1,0 +1,35 @@
+#include <iostream>
+
+using namespace std;
+
+int N;
+int totalCnt = 0;
+int table[15];
+bool check(int currentRow) {
+	for (int row = 0; row < currentRow; row++) {
+		if (table[currentRow] == table[row] || abs(currentRow - row) == abs(table[currentRow] - table[row]))
+			return false;
+	}
+	return true;
+}
+
+void nQueen(int row) {
+	if (row == N) {
+		totalCnt++;
+		return;
+	}
+
+	for (int col = 0; col < N; col++) {
+		table[row] = col;
+		if (check(row)) {
+			nQueen(row + 1);
+		}
+	}
+}
+
+int main() {
+	cin >> N;
+	nQueen(0);
+	cout << totalCnt << "\n";
+	return 0;
+}
