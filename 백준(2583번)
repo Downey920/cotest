@@ -1,0 +1,81 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int N, M, K;
+int map[101][101];
+int xx[4] = {0,0,1,-1};
+int yy[4] = {1,-1,0,0};
+int cnt = 1;
+void bfs(int x, int y) {
+	queue<pair<int, int>> q;
+	q.push({ x,y });
+	map[x][y] = 2;
+
+	while (!q.empty()) {
+		int a = q.front().first;
+		int b = q.front().second;
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			int na = a + xx[i];
+			int nb = b + yy[i];
+			if (na >= 0 && na < N && nb >= 0 && nb < M) {
+				if (!map[na][nb]) {
+					q.push({ na, nb });
+					map[na][nb] = 2;
+					cnt++;
+				}
+			}
+		}
+	}
+}
+
+void dfs(int x, int y) {
+	map[x][y] = 2;
+	for (int i = 0; i < 4; i++) {
+		int nx = x + xx[i];
+		int ny = y + yy[i];
+		if (nx >= 0 && nx < N && ny >= 0 && ny < M) {
+			if (!map[nx][ny]) {
+				dfs(nx, ny);
+				cnt++;
+			}
+		}
+	}
+}
+
+int main() {
+	vector<int> v;
+	cin >> M >> N >> K;
+
+	for (int i = 0; i < K; i++) {
+		int a, b, c, d;
+		cin >> a >> b >> c >> d;
+		for (int i = a; i < c; i++) {
+			for (int j = b; j < d; j++) {
+				map[i][j] = 1;
+				
+			}
+		}
+	}
+
+	for (int i = M - 1; i >= 0; i--) {
+		for (int j = 0; j < N; j++) {
+			if (!map[j][i]) {
+				bfs(j, i);
+				v.push_back(cnt);
+				cnt = 1;
+			}
+		}
+	}
+
+	cout << v.size() << '\n';
+	sort(v.begin(), v.end());
+	for (int i = 0; i < v.size(); i++) {
+		cout << v[i] << ' ';
+	}
+	return 0;
+}
